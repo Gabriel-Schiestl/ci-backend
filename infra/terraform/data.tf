@@ -4,6 +4,4 @@ data "aws_ami" "ubuntu" {
   most_recent = true
 
   name_regex = "ubuntu"
-
-  region = var.region
 }

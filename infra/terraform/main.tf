@@ -8,18 +8,9 @@ terraform {
 
   required_version = "1.12.2"
 
-  backend "s3" {
-    bucket = aws_s3_bucket.this.bucket
-
-    key = "terraform.tfstate"
-
-    region = "us-east-1"
-
-    profile = "tf01"
-  }
+  backend "s3" {}
 }
 
 provider "aws" {
-  region  = var.region
-  profile = var.profile
+  region = var.region
 }
