@@ -1,0 +1,66 @@
+name: Deploy to Production
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'The environment to deploy to'
+        required: true
+        type: string
+      aws_region:
+        description: 'The AWS region to deploy to'
+        required: true
+        type: string
+      aws_role_to_assume:
+        description: 'The AWS IAM Role to assume'
+        required: true
+        type: string
+      aws_s3_state_bucket:
+        description: 'The S3 bucket to store the Terraform state'
+        required: true
+        type: string
+
+permissions:
+      id-token: write
+      contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.3.1
+        with:
+          role-to-assume: ${{ inputs.aws_role_to_assume }}
+          aws-region: ${{ inputs.aws_region }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.2
+
+      - name: Terraform Init
+        run: |
+          cd infra/terraform && terraform init \
+            -backend-config="region=${{ inputs.aws_region }}" \
+            -backend-config="key=${{ inputs.environment }}/terraform.tfstate" \
+            -backend-config="bucket=${{ inputs.aws_s3_state_bucket}}"
+
+      - name: Terraform Validate
+        run: cd infra/terraform && terraform validate
+
+      - name: Terraform Plan
+        run: |
+          cd infra/terraform && \
+          terraform workspace select ${{ inputs.environment }} \
+          || terraform workspace new ${{ inputs.environment }} && \
+          terraform plan \
+          -var-file="./envs/${{ inputs.environment }}.tfvars" \ 
+          -out=${{ inputs.environment }}.plan
+      
+      - name: Terraform Apply
+        run: |
+          cd infra/terraform && terraform apply \
+          -auto-approve -var-file="./envs/${{ inputs.environment }}.tfvars" \
