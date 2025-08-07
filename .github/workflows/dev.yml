@@ -23,6 +23,6 @@ jobs:
     needs: CI
     with:
       environment: dev
-      aws_region: us-east-1
-      aws_role_to_assume: arn:aws:iam::593755927326:oidc-provider/token.actions.githubusercontent.com
-      aws_s3_state_bucket: terraform-remote-state-ci-backend 
+      aws_region: "us-east-1"
+      aws_role_to_assume: "arn:aws:iam::593755927326:oidc-provider/token.actions.githubusercontent.com"
+      aws_s3_state_bucket: "terraform-remote-state-ci-backend"
