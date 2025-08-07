@@ -8,6 +8,10 @@ on:
     branches:
       - dev
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   CI:
     uses: ./.github/workflows/test.yml
