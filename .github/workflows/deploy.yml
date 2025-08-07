@@ -57,7 +57,7 @@ jobs:
           terraform workspace select ${{ inputs.environment }} \
           || terraform workspace new ${{ inputs.environment }} && \
           terraform plan \
-          -var-file="./envs/${{ inputs.environment }}.tfvars" \ 
+          -var-file="./envs/${{ inputs.environment }}.tfvars" \
           -out=${{ inputs.environment }}.plan
       
       - name: Terraform Apply

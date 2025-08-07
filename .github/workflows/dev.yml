@@ -1,0 +1,23 @@
+name: Dev workflow
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  CI:
+    uses: ./.github/workflows/test.yml
+    with:
+      test_threshold: 80
+    
+  CD:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: dev
+      aws_region: us-east-1
+      aws_role_to_assume: arn:aws:iam::593755927326:oidc-provider/token.actions.githubusercontent.com
+      aws_s3_state_bucket: terraform-remote-state-ci-backend 

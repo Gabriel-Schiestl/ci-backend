@@ -24,6 +24,6 @@ module.exports = {
         '!**/middleware/**',
     ],
     coverageDirectory: '../coverage',
-    coverageReporters: ['lcov', 'text'],
+    coverageReporters: ['lcov', 'text', 'json'],
     testEnvironment: 'node',
 };

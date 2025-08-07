@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  workflow_call:
+    inputs:
+      test_threshold:
+        type: number
+        description: 'Minimum test coverage threshold'
+        required: false
+        default: 80
+
+jobs:
+  dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+      
+      - name: Run tests
+        run: npm run test:cov
+      
+      - name: Check coverage threshold
+        run: |
+          COVERAGE=$(node -pe "require('./coverage/coverage-summary.json').total.lines.pct")
+          echo "Coverage is $COVERAGE%"
+          if [ "$COVERAGE" -lt "${{ inputs.test_threshold }}" ]; then
+            echo "Coverage below threshold (${{ inputs.test_threshold }}%)"
+            exit 1
+          else
+            echo "Coverage meets the threshold"
+          fi
