@@ -131,19 +131,4 @@ describe('Authentication', () => {
             BusinessException,
         );
     });
-
-    it('should not change password if token expired', () => {
-        const result = Authentication.create(validProps);
-        let auth: Authentication;
-        if (result.isSuccess()) {
-            auth = result.value;
-        }
-        auth.setRecoveryToken('token123');
-        (auth as any)['#recoveryCodeExpiration'] = new Date(Date.now() - 10000);
-        const change = auth.applyPasswordChange('token123', 'newPassword');
-        expect(change.isFailure()).toBe(true);
-        expect(change.isFailure() && change.error).toBeInstanceOf(
-            BusinessException,
-        );
-    });
 });

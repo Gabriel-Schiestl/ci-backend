@@ -1,6 +1,6 @@
 module.exports = {
     moduleFileExtensions: ['js', 'json', 'ts'],
-    rootDir: 'src',
+    rootDir: '.',
     testRegex: '.*\\.spec\\.ts$',
     transform: {
         '^.+\\.(t|j)s$': 'ts-jest',
@@ -23,7 +23,8 @@ module.exports = {
         '!**/logger/**',
         '!**/middleware/**',
     ],
-    coverageDirectory: '../coverage',
+    coverageDirectory: './coverage',
     coverageReporters: ['lcov', 'text', 'json'],
     testEnvironment: 'node',
+    moduleDirectories: ['node_modules', '<rootDir>'],
 };

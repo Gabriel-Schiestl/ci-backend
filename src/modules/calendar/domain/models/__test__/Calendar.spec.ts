@@ -122,7 +122,7 @@ describe('Calendar', () => {
         calendarInstance.addEvent(eventProps);
         const events = calendarInstance.getEventsInRange(
             new Date('2025-07-24T00:00:00Z'),
-            new Date('2025-07-25T00:00:00Z'),
+            new Date('2025-07-24T23:59:59Z'),
         );
         expect(events).toHaveLength(1);
     });

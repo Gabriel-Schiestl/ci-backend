@@ -20,6 +20,7 @@ jobs:
     
   CD:
     uses: ./.github/workflows/deploy.yml
+    needs: CI
     with:
       environment: dev
       aws_region: us-east-1

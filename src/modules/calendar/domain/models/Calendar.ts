@@ -123,9 +123,9 @@ export class Calendar implements CalendarProps {
         return this.#events.filter((event) => {
             const eventDate = event.date;
             return (
-                eventDate.getFullYear() === date.getFullYear() &&
-                eventDate.getMonth() === date.getMonth() &&
-                eventDate.getDate() === date.getDate()
+                eventDate.getUTCFullYear() === date.getUTCFullYear() &&
+                eventDate.getUTCMonth() === date.getUTCMonth() &&
+                eventDate.getUTCDate() === date.getUTCDate()
             );
         });
     }
