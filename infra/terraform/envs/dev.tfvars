@@ -3,7 +3,7 @@ region = "us-east-1"
 instance = {
   region = "us-east-1"
   count  = 1
-  type   = "t2.micro"
+  type   = "t3.micro"
 }
 
 vpc_cidr_block = "172.16.0.0/16"
