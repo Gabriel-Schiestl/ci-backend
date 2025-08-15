@@ -1,6 +1,7 @@
 variable "region" {
   type = string
 
+
   description = "AWS region"
 }
 
@@ -14,7 +15,7 @@ variable "instance" {
     })
   }
 
-  variable "vpc_cidr_block" {
+variable "vpc_cidr_block" {
   type = string
 
   }
@@ -25,10 +26,8 @@ variable "public_subnets" {
 
 variable "private_subnets" {
   type = list(string)
-
 }
 
 variable "availability_zones" {
   type = list(string)
-
 }
